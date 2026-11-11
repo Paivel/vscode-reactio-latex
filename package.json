@@ -1,0 +1,261 @@
+{
+  "name": "reactio-latex",
+  "displayName": "Reactio Draw figures for LaTeX",
+  "description": "Paste Reactio Draw figures into LaTeX with their files, edit them in Reactio Draw, and see compound numbers.",
+  "version": "0.2.5",
+  "publisher": "paivel",
+  "license": "Apache-2.0",
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Paivel/vscode-reactio-latex"
+  },
+  "engines": {
+    "vscode": "^1.97.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "latex",
+    "chemistry",
+    "chemnum",
+    "figures",
+    "reactio"
+  ],
+  "main": "./dist/extension.js",
+  "extensionKind": [
+    "workspace"
+  ],
+  "activationEvents": [
+    "onLanguage:latex",
+    "onLanguage:tex"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "In a workspace you have not trusted, drawings do not open in other programs and figures are not exported (that builds the document with TeX)."
+    }
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "reactioLatex.pasteFigure",
+        "title": "Paste Figure with Its Files",
+        "category": "Reactio"
+      },
+      {
+        "command": "reactioLatex.editFigureSource",
+        "title": "Edit Figure Source",
+        "category": "Reactio"
+      },
+      {
+        "command": "reactioLatex.openDrawing",
+        "title": "Open in Drawing Program",
+        "category": "Reactio"
+      },
+      {
+        "command": "reactioLatex.exportFigures",
+        "title": "Export Figures for Submission",
+        "category": "Reactio"
+      },
+      {
+        "command": "reactioLatex.copyCompoundByNumber",
+        "title": "Copy Compound by Number",
+        "category": "Reactio"
+      },
+      {
+        "command": "reactioLatex.refreshCompounds",
+        "title": "Refresh",
+        "category": "Reactio",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "reactioLatex.copyCompound",
+        "title": "Copy",
+        "category": "Reactio",
+        "icon": "$(copy)"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "reactioLatex.pasteFigure",
+          "when": "editorLangId =~ /^(latex|tex)$/",
+          "group": "9_cutcopypaste@9"
+        },
+        {
+          "command": "reactioLatex.editFigureSource",
+          "when": "editorLangId =~ /^(latex|tex)$/",
+          "group": "navigation@9"
+        },
+        {
+          "command": "reactioLatex.exportFigures",
+          "when": "editorLangId =~ /^(latex|tex)$/",
+          "group": "navigation@10"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "reactioLatex.editFigureSource",
+          "when": "resourceExtname =~ /^\\.(tex|pdf)$/i",
+          "group": "navigation@9"
+        },
+        {
+          "command": "reactioLatex.openDrawing",
+          "when": "resourceExtname =~ /^\\.(reactio|cdxml|cdx|drawio|dio|ipe|excalidraw|ggb|odg)$/i",
+          "group": "navigation@9"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "reactioLatex.pasteFigure",
+          "when": "editorLangId =~ /^(latex|tex)$/"
+        },
+        {
+          "command": "reactioLatex.openDrawing",
+          "when": "false"
+        },
+        {
+          "command": "reactioLatex.exportFigures",
+          "when": "editorLangId =~ /^(latex|tex)$/"
+        },
+        {
+          "command": "reactioLatex.refreshCompounds",
+          "when": "false"
+        },
+        {
+          "command": "reactioLatex.copyCompound",
+          "when": "false"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "reactioLatex.refreshCompounds",
+          "when": "view == reactioLatex.compounds",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "reactioLatex.copyCompound",
+          "when": "view == reactioLatex.compounds && viewItem == compound",
+          "group": "inline"
+        }
+      ]
+    },
+    "customEditors": [
+      {
+        "viewType": "reactioLatex.drawing",
+        "displayName": "Reactio Draw drawing",
+        "selector": [
+          {
+            "filenamePattern": "*.reactio"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
+    "configuration": {
+      "title": "Reactio Draw figures",
+      "properties": {
+        "reactioLatex.figuresFolder": {
+          "type": "string",
+          "default": "figures",
+          "description": "Folder, beside the main document, that pasted figures are copied into."
+        },
+        "reactioLatex.codeLens": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show Edit in Reactio Draw above lines that include a figure made from a drawing."
+        },
+        "reactioLatex.auxDirectory": {
+          "type": "string",
+          "default": "",
+          "description": "Folder of the build's .aux file, if it is neither beside the main document nor LaTeX Workshop's outDir. %DIR% is the main document's folder."
+        },
+        "reactioLatex.paste.float": {
+          "type": "string",
+          "default": "auto",
+          "enum": [
+            "auto",
+            "scheme",
+            "figure"
+          ],
+          "enumDescriptions": [
+            "scheme in a document that has a scheme float (the ACS class achemso, chemstyle, or \\newfloat{scheme}), else figure",
+            "Always \\begin{scheme} with \\label{sch:}",
+            "Always \\begin{figure} with \\label{fig:}"
+          ],
+          "description": "The float a figure pasted on an empty line goes in."
+        },
+        "reactioLatex.export.folder": {
+          "type": "string",
+          "default": "figures-for-submission",
+          "description": "Folder, beside the main document, that Export Figures for Submission writes Scheme1.pdf, Scheme1.tiff… into."
+        },
+        "reactioLatex.export.tiff": {
+          "type": "boolean",
+          "default": true,
+          "description": "Also write each figure as a TIFF (journals such as ACS take TIFF, PDF or EPS)."
+        },
+        "reactioLatex.export.texCopy": {
+          "type": "boolean",
+          "default": true,
+          "description": "Also write the article as one .tex beside the figures, with each figure as \\includegraphics{Scheme1}, for a journal that builds the LaTeX itself."
+        },
+        "reactioLatex.export.tiffDpi": {
+          "type": "number",
+          "default": 600,
+          "enum": [
+            300,
+            600,
+            1200
+          ],
+          "enumDescriptions": [
+            "Colour art (ACS minimum)",
+            "Grayscale art; a safe default for schemes",
+            "Black and white line art"
+          ],
+          "description": "Resolution of exported TIFF files."
+        },
+        "reactioLatex.export.engine": {
+          "type": "string",
+          "default": "auto",
+          "enum": [
+            "auto",
+            "pdflatex",
+            "xelatex",
+            "lualatex"
+          ],
+          "description": "TeX engine for the export build. auto: the document's % !TeX program line, else pdflatex."
+        }
+      }
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "reactioLatex.compounds",
+          "name": "Compounds",
+          "when": "reactioLatex.active"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "esbuild src/extension.ts --bundle --platform=node --format=cjs --target=node20 --external:vscode --outfile=dist/extension.js",
+    "check": "tsc -p . && vitest run",
+    "package": "npm run check && npm run build -- --minify && vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/vscode": "1.97.0",
+    "@vscode/vsce": "^4.1.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1"
+  }
+}

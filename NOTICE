@@ -1,0 +1,16 @@
+Reactio Draw figures for LaTeX
+Copyright 2026 Pavel Sakharov
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Parts of this extension are adapted from Lattice
+(https://github.com/leo1oel/lattice), Copyright 2026 Leonardo and the
+Lattice contributors, licensed under the Apache License, Version 2.0:
+src/lattice/*.ts, src/import-figure.ts and the tests derived from Lattice's
+tests. Each such file says so at its top and what was changed.
+
+The extension bundles pdf-lib (https://github.com/Hopding/pdf-lib),
+Copyright (c) 2019 Andrew Dillon, licensed under the MIT License, and its
+dependencies pako (MIT and Zlib, Copyright (C) 2014-2017 by Vitaly Puzrin and
+Andrei Tuputcyn), tslib (0BSD, Copyright (c) Microsoft Corporation),
+@pdf-lib/standard-fonts and @pdf-lib/upng (MIT, Copyright (c) Andrew Dillon).
