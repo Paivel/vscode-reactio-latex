@@ -4,6 +4,8 @@ Use [Reactio Draw](https://github.com/Paivel/reactio-draw) figures in LaTeX docu
 such as Cursor and VSCodium). Works beside [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop),
 which builds the document and shows the PDF.
 
+![A LaTeX document in VS Code with a Reactio Draw scheme: the compound number and figure on hover, Edit in Reactio Draw above the figure, and the built PDF](images/readme.png)
+
 ## Paste a figure with its files
 
 In Reactio Draw, use **Copy for LaTeX**. In a `.tex` file, paste (Cmd+V / Ctrl+V):
